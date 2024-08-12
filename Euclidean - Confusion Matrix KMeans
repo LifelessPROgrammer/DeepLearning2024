@@ -1,0 +1,25 @@
+from sklearn.cluster import KMeans
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+X = np.random.rand(100, 2)
+y = np.random.randint(0, 2, 100)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+kmeans = KMeans(n_clusters=2)
+
+kmeans.fit(X_train)
+
+y_pred = kmeans.predict(X_test)
+
+label_map = dict(zip(np.unique(y_train), np.unique(y)))
+y_pred = np.array([label_map[label] for label in y_pred])
+print("Predicted Label for the new data point: ", y_pred )
+
+test_score = accuracy_score(y_test, y_pred)
+print("Test Score: ", test_score)
+
+confusion_mat = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix: \n", confusion_mat)
+
